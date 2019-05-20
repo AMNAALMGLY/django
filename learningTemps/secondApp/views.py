@@ -36,7 +36,16 @@ def register(request):
     else:
         user_form=UserForm()
         profile_form=UserProfileInfoForm()
+
     return  render(request,'secondApp/register.html',{'user_form':user_form,'profile_form':profile_form,'registered':registered})
+ #making login requiered:
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
+
+
 def user_login(request):
     if request.method=='POST':
         username=request.POST.get('username')
@@ -55,9 +64,3 @@ def user_login(request):
             return  HttpResponse('invalid login details supplied')
     else:
         return render(request,'secondApp/login.html',{})
-
- #making login requiered:
-@login_required
-def user_logout(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('index'))
